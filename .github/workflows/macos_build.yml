@@ -154,14 +154,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: 'recursive'
-      - name: Install Prerequisites
-        shell: bash
-        run: |
-          if [[ ${{ matrix.config }} == "sitl" ]]; then
-            export DO_AP_STM_ENV=0
-          fi
-          Tools/environment_install/install-prereqs-mac.sh -y
-          source ~/.bash_profile
       # Put ccache into github cache for faster build
       - name: Prepare ccache timestamp
         id: ccache_cache_timestamp
@@ -183,7 +175,16 @@ jobs:
           CI_BUILD_TARGET: ${{matrix.config}}
         shell: bash
         run: |
-          source ~/.bash_profile
+          # macOS ランナーでは ~/.bash_profile が無いことが多いので安全化
+          if [ -f "$HOME/.bash_profile" ]; then
+              source ~/.bash_profile
+          fi
+
+          # SITL のときだけ DO_AP_STM_ENV=0 を設定（元の意図を踏襲）
+          if [[ "${{ matrix.config }}" == "sitl" ]]; then
+              export DO_AP_STM_ENV=0
+          fi
+
           PATH="/github/home/.local/bin:$PATH"
           echo $PATH
           ./waf configure --board ${{matrix.config}}
