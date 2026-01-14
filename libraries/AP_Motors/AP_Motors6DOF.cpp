@@ -176,8 +176,24 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM:
-        // Put your custom motor setup here
-        //break;
+        _frame_class_string = "CUSTOM_HAYATE_6";
+        // 角度（推力方向）:
+        //  - 右舷/左舷 前・後ユニット: Yaw=±30°, Pitch=-18.32° (下向き), Roll=±30°
+        //  - 右舷/左舷 中央ユニット:    Yaw=0°,   Pitch=+34°  (上向き), Roll=0°
+        //
+        // 係数: (Roll, Pitch, Yaw, Throttle, Forward, Lateral, TestOrder)
+        // 推力は「尖った側＝機尾方向（-X）」へ吐出する前提のベクトルです
+
+        // 右舷（starboard, y=+）
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,  +0.062f,  -1.000f,  -0.349f,  +0.035f,  -0.822f,  -0.568f,  1); // 右舷 前   ψ=+30°, θ=-18.32°, φ=+30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,  -1.000f,  +0.000f,  +0.328f,  -0.559f,  -0.829f,  -0.000f,  2); // 右舷 中央 ψ=0°,   θ=+34°,   φ=0°
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,  +0.062f,  +1.000f,  +1.000f,  +0.035f,  -0.822f,  -0.568f,  3); // 右舷 後   ψ=+30°, θ=-18.32°, φ=+30°
+
+        // 左舷（port, y=-）
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,  -0.062f,  -1.000f,  +0.349f,  +0.035f,  -0.822f,  +0.568f,  4); // 左舷 前   ψ=-30°, θ=-18.32°, φ=-30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,  +1.000f,  +0.000f,  -0.328f,  -0.559f,  -0.829f,  -0.000f,  5); // 左舷 中央 ψ=0°,   θ=+34°,   φ=0°
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,  -0.062f,  +1.000f,  -1.000f,  +0.035f,  -0.822f,  +0.568f,  6); // 左舷 後   ψ=-30°, θ=-18.32°, φ=-30°
+        break;
 
     case SUB_FRAME_SIMPLEROV_3:
         _frame_class_string = "SIMPLEROV_3";
