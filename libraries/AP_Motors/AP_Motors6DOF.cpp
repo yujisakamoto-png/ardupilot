@@ -176,16 +176,16 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM: {
-        _frame_class_string = "HAYATE_VECTORED_SIGNFIX";
-        //                 Motor #          Roll  Pitch Yaw   Throttle Forward Lateral Testing Order
-        // 水平4基：Yaw/Forward/Lateral のみ（Climb=0）
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,  0.0f, 0.0f, +1.0f,  0.0f, -0.866f, +0.5f, 1); // M1: bow-starboard (ψ=-30°) → F=-0.866, L=+0.5,  Yaw=+1
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,  0.0f, 0.0f, -1.0f,  0.0f, -0.866f, -0.5f, 2); // M2: bow-port (ψ=+30°) → F=-0.866, L=-0.5,  Yaw=-1
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,  0.0f, 0.0f, -1.0f,  0.0f, +0.866f, +0.5f, 3); // M3: stern-starboard (ψ=+30°) → F=+0.866, L=+0.5,  Yaw=-1
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,  0.0f, 0.0f, +1.0f,  0.0f, +0.866f, -0.5f, 4); // M4: stern-port (ψ=-30°) → F=+0.866, L=-0.5,  Yaw=+1
-        // 縦2基：Climb（Down+）のみ
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,  0.0f, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f, 5);
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,  0.0f, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f, 6);
+        _frame_class_string = "HAYATE_M5M6_add_Forward";
+        //                 Motor #           Roll Pitch  Yaw  Throttle Forward Lateral Testing Order
+        // 水平4基（ψ = ±30°）
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,  0.0f, 0.0f, +1.0f,  0.0f, -0.866f, +0.5f, 1); // bow-starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,  0.0f, 0.0f, -1.0f,  0.0f, -0.866f, -0.5f, 2); // bow-port
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,  0.0f, 0.0f, -1.0f,  0.0f, +0.866f, +0.5f, 3); // stern-starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,  0.0f, 0.0f, +1.0f,  0.0f, +0.866f, -0.5f, 4); // stern-port
+        // 縦2基（前傾 θ=-34°）
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,  0.0f, 0.0f, 0.0f,  -1.0f, +0.829f, 0.0f, 5); // vertical starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,  0.0f, 0.0f, 0.0f,  -1.0f, +0.829f, 0.0f, 6); // vertical port
         break;
     }
 
