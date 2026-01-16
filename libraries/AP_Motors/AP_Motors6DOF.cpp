@@ -176,10 +176,11 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM:
-        _frame_class_string = "CUSTOM_HAYATE_6_2";
-        // --- 水平スラスタ（θ=-18.32°）：Fx≈-0.82240, Fz≈-0.31480, Fy=±0.47460 ---
-        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.04781f,   +0.12293f,  -0.31023f,   +0.31480f,  -0.82240f,  +0.47460f,  1); // M1: ψ=150°, r=(+0.3905,+0.151875,0)
-        add_motor_raw_6dof(AP_MOTORS_MOT_2, +0.04781f,   +0.12293f,  +0.31023f,   +0.31480f,  -0.82240f,  -0.47460f,  2); // M2: ψ=210°, r=(+0.3905,-0.151875,0)
+        _frame_class_string = "CUSTOM_HAYATE_6_3";
+        // --- 差分（Yaw列だけの変更 / 他の列は現状維持） ---
+        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.04781f, +0.12293f, -0.30153f, +0.31480f, -0.82240f, +0.47460f, 1);  // Yaw: -0.31023 → -0.30153
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +0.04781f, +0.12293f, +0.30153f, +0.31480f, -0.82240f, -0.47460f, 2);  // Yaw: +0.31023 → +0.30153
+        // M3/M4/M5/M6 はそのまま（Yawは既に ±0.30153 / ±0.12590）
         add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.04781f,   -0.11704f,  -0.30153f,   +0.31480f,  -0.82240f,  -0.47460f,  3); // M3: ψ=210°, r=(-0.3718,+0.151875,0)
         add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.04781f,   -0.11704f,  +0.30153f,   +0.31480f,  -0.82240f,  +0.47460f,  4); // M4: ψ=150°, r=(-0.3718,-0.151875,0)
         // --- 縦スラ（θ=+34°, ψ=180°）：Fx≈-0.82900, Fz≈+0.55920, Fy=0 ---
