@@ -181,19 +181,13 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         // add_motor_raw_6dof(AP_MOTORS_MOT_n, Roll, Pitch, Yaw, Throttle, Forward, Lateral, test_order)
         // 列正規化：各列の最大絶対値 ≈ 1.0
         // 水平スラスタ θ=-18.32°（下向き成分）→ Throttle は +、Roll/Yaw は前回案の符号を反転
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,  // M1: ψ=150°
-            -0.566f,   +1.000f,  -1.000f,  +0.563f,  -0.992f,  +1.000f,  1);
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,  // M2: ψ=210°
-            +0.566f,   +1.000f,  +1.000f,  +0.563f,  -0.992f,  -1.000f,  2);
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,  // M3: ψ=210°
-            -0.566f,   -0.958f,  -0.969f,  +0.563f,  -0.992f,  -1.000f,  3);
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,  // M4: ψ=150°
-            +0.566f,   -0.958f,  +0.969f,  +0.563f,  -0.992f,  +1.000f,  4);
+        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.566f,   +1.000f,  -1.000f,  +0.563f,  -0.992f,  +1.000f,  1); // M1: ψ=150°
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +0.566f,   +1.000f,  +1.000f,  +0.563f,  -0.992f,  -1.000f,  2); // M2: ψ=210°
+        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.566f,   -0.958f,  -0.969f,  +0.563f,  -0.992f,  -1.000f,  3); // M3: ψ=210°
+        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.566f,   -0.958f,  +0.969f,  +0.563f,  -0.992f,  +1.000f,  4); // M4: ψ=150°
         // 縦スラ θ=+34°（上向き成分）→ Throttle は −、Roll/Yaw は前回案の符号を反転
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,  // M5: ψ=180°, 右舷側
-            +1.000f,   +0.000f,  -0.402f,  -1.000f,  -1.000f,   0.000f,  5);
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,  // M6: ψ=180°, 左舷側
-            -1.000f,   +0.000f,  +0.402f,  -1.000f,  -1.000f,   0.000f,  6);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, +1.000f,   +0.000f,  -0.402f,  -1.000f,  -1.000f,   0.000f,  5); // M5: ψ=180°, 右舷側
+        add_motor_raw_6dof(AP_MOTORS_MOT_6, -1.000f,   +0.000f,  +0.402f,  -1.000f,  -1.000f,   0.000f,  6); // M6: ψ=180°, 左舷側
         break;
 
     case SUB_FRAME_SIMPLEROV_3:
