@@ -176,18 +176,15 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM:
-        _frame_class_string = "CUSTOM_HAYATE_6";
-        // SUB_FRAME_CUSTOM 推奨（AP_Motors6DOF.cpp の case SUB_FRAME_CUSTOM: 内）
-        // add_motor_raw_6dof(AP_MOTORS_MOT_n, Roll, Pitch, Yaw, Throttle, Forward, Lateral, test_order)
-        // 列正規化：各列の最大絶対値 ≈ 1.0
-        // 水平スラスタ θ=-18.32°（下向き成分）→ Throttle は +、Roll/Yaw は前回案の符号を反転
-        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.566f,   +1.000f,  -1.000f,  +0.563f,  -0.992f,  +1.000f,  1); // M1: ψ=150°
-        add_motor_raw_6dof(AP_MOTORS_MOT_2, +0.566f,   +1.000f,  +1.000f,  +0.563f,  -0.992f,  -1.000f,  2); // M2: ψ=210°
-        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.566f,   -0.958f,  -0.969f,  +0.563f,  -0.992f,  -1.000f,  3); // M3: ψ=210°
-        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.566f,   -0.958f,  +0.969f,  +0.563f,  -0.992f,  +1.000f,  4); // M4: ψ=150°
-        // 縦スラ θ=+34°（上向き成分）→ Throttle は −、Roll/Yaw は前回案の符号を反転
-        add_motor_raw_6dof(AP_MOTORS_MOT_5, +1.000f,   +0.000f,  -0.402f,  -1.000f,  -1.000f,   0.000f,  5); // M5: ψ=180°, 右舷側
-        add_motor_raw_6dof(AP_MOTORS_MOT_6, -1.000f,   +0.000f,  +0.402f,  -1.000f,  -1.000f,   0.000f,  6); // M6: ψ=180°, 左舷側
+        _frame_class_string = "CUSTOM_HAYATE_6_2";
+        // --- 水平スラスタ（θ=-18.32°）：Fx≈-0.82240, Fz≈-0.31480, Fy=±0.47460 ---
+        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.04781f,   +0.12293f,  -0.31023f,   +0.31480f,  -0.82240f,  +0.47460f,  1); // M1: ψ=150°, r=(+0.3905,+0.151875,0)
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +0.04781f,   +0.12293f,  +0.31023f,   +0.31480f,  -0.82240f,  -0.47460f,  2); // M2: ψ=210°, r=(+0.3905,-0.151875,0)
+        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.04781f,   -0.11704f,  -0.30153f,   +0.31480f,  -0.82240f,  -0.47460f,  3); // M3: ψ=210°, r=(-0.3718,+0.151875,0)
+        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.04781f,   -0.11704f,  +0.30153f,   +0.31480f,  -0.82240f,  +0.47460f,  4); // M4: ψ=150°, r=(-0.3718,-0.151875,0)
+        // --- 縦スラ（θ=+34°, ψ=180°）：Fx≈-0.82900, Fz≈+0.55920, Fy=0 ---
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, +0.08493f,   +0.00000f,  -0.12590f,   -0.55920f,  -0.82900f,   0.00000f,  5); // M5: r=(0,+0.151875,0)   ※Pitch=0（x=0,z=0のため）
+        add_motor_raw_6dof(AP_MOTORS_MOT_6, -0.08493f,   +0.00000f,  +0.12590f,   -0.55920f,  -0.82900f,   0.00000f,  6); // M6: r=(0,-0.151875,0)   ※Pitch=0（x=0,z=0のため）
         break;
 
     case SUB_FRAME_SIMPLEROV_3:
