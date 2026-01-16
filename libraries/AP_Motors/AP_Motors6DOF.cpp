@@ -176,13 +176,16 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM: {
-        _frame_class_string = "CUSTOM_HAYATE_6_5";
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,  +0.562f,  -1.000f,  +1.000f,  -0.314f,  +0.822f,  -0.475f,  1); // M1 (bow-starboard): ψ=-30°, θ=+18.32°
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,  -0.562f,  -1.000f,  -1.000f,  -0.314f,  +0.822f,  +0.475f,  2); // M2 (bow-port): ψ=+30°, θ=+18.32°
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,  +0.562f,  +0.952f,  +0.971f,  -0.314f,  +0.822f,  +0.475f,  3); // M3 (stern-starboard): ψ=+30°, θ=+18.32°
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,  -0.562f,  +0.952f,  -0.971f,  -0.314f,  +0.822f,  -0.475f,  4); // M4 (stern-port): ψ=-30°, θ=+18.32°
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,  -1.000f,  +0.000f,  +0.406f,  +0.559f,  +0.829f,  +0.000f,  5); // M5 (vertical-starboard, forward-tilt θ=-34°)
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,  +1.000f,  +0.000f,  -0.406f,  +0.559f,  +0.829f,  +0.000f,  6); // M6 (vertical-port, forward-tilt θ=-34°)
+        _frame_class_string = "HAYATE_ALT_HOLD_SAFE2";
+        // 水平4基（ψ = ±30°）：Yaw と Forward/Lateral のみ（Climb=0）
+        // cos30=0.866, sin30=0.5
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,  0.0f, 0.0f, +1.0f,  0.0f, +0.866f, -0.5f, 1); // bow-starboard (ψ=-30°)
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,  0.0f, 0.0f, -1.0f,  0.0f, +0.866f, +0.5f, 2); // bow-port     (ψ=+30°)
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,  0.0f, 0.0f, -1.0f,  0.0f, +0.866f, +0.5f, 3); // stern-starboard (ψ=+30°)
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,  0.0f, 0.0f, +1.0f,  0.0f, +0.866f, -0.5f, 4); // stern-port      (ψ=-30°)
+        // 縦2基：Climb（Down+）のみ。**-1.0f にする**のが肝（DIRECTIONでの反転は不要に）
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,  0.0f, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f, 5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,  0.0f, 0.0f, 0.0f,  -1.0f, 0.0f, 0.0f, 6);
         break;
     }
 
