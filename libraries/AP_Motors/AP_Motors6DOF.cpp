@@ -176,16 +176,18 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM:
-        _frame_class_string = "CUSTOM_HAYATE_6_3";
+        _frame_class_string = "CUSTOM_HAYATE_6_4";
         // --- 差分（Yaw列だけの変更 / 他の列は現状維持） ---
         add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.04781f, +0.12293f, -0.30153f, +0.31480f, -0.82240f, +0.47460f, 1);  // Yaw: -0.31023 → -0.30153
         add_motor_raw_6dof(AP_MOTORS_MOT_2, +0.04781f, +0.12293f, +0.30153f, +0.31480f, -0.82240f, -0.47460f, 2);  // Yaw: +0.31023 → +0.30153
         // M3/M4/M5/M6 はそのまま（Yawは既に ±0.30153 / ±0.12590）
-        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.04781f,   -0.11704f,  -0.30153f,   +0.31480f,  -0.82240f,  -0.47460f,  3); // M3: ψ=210°, r=(-0.3718,+0.151875,0)
-        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.04781f,   -0.11704f,  +0.30153f,   +0.31480f,  -0.82240f,  +0.47460f,  4); // M4: ψ=150°, r=(-0.3718,-0.151875,0)
-        // --- 縦スラ（θ=+34°, ψ=180°）：Fx≈-0.82900, Fz≈+0.55920, Fy=0 ---
-        add_motor_raw_6dof(AP_MOTORS_MOT_5, +0.08493f,   +0.00000f,  -0.12590f,   -0.55920f,  -0.82900f,   0.00000f,  5); // M5: r=(0,+0.151875,0)   ※Pitch=0（x=0,z=0のため）
-        add_motor_raw_6dof(AP_MOTORS_MOT_6, -0.08493f,   +0.00000f,  +0.12590f,   -0.55920f,  -0.82900f,   0.00000f,  6); // M6: r=(0,-0.151875,0)   ※Pitch=0（x=0,z=0のため）
+        // M3: ψ=210°, r=(-0.3718,+0.151875,0)
+        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.04781f,   -0.11704f,  -0.30153f,   +0.31480f,  -0.82240f,  -0.47460f,  3);
+        // M4: ψ=150°, r=(-0.3718,-0.151875,0)
+        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.04781f,   -0.11704f,  +0.30153f,   +0.31480f,  -0.82240f,  +0.47460f,  4);
+        // (Patch A 適用済みを前提)  M5/M6 の Yaw を 0 に
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, +0.08493f, +0.00000f,  0.00000f,  -0.55920f,  -0.82900f,  0.00000f,  5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_6, -0.08493f, +0.00000f,  0.00000f,  -0.55920f,  -0.82900f,  0.00000f,  6);
         break;
 
     case SUB_FRAME_SIMPLEROV_3:
