@@ -176,21 +176,25 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_CUSTOM:{
-        _frame_class_string = "HAYATE_CUSTOM_GEOM_V1";// RML_Supervisor.json参考：符号調整
+        _frame_class_string = "HAYATE_6DOF_ORTHO";// RML_Supervisor.json参考：符号調整、6自由度全て個別定義し、係数列がレンチ空間で直交化、RC軸独立化
         // 水平4基（ψ = ±30°/ 後傾 θ = +18.32°）縦2基（前傾 θ = -34°）
         /**
-              ①          ②            ③
-            ＜機首方向
-              ⑥          ⑤            ④
+              右舷モーター：CW
+              ①          ②          ③
+             +--------------------------+
+           ＜機首方向                   |
+             +--------------------------+
+              ⑥          ⑤          ④
+              左舷モーター：CCW
         **/
         //                   Motor #           Roll       Pitch        Yaw      Throttle     Forward     Lateral   Testing Order
         //                                    (τx)       (τy)       (τz)     (Fz Down+)     (Fx)    (Fy Right+)
-        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.562097f,  1.000000f, -1.000000f, -0.562103f,  0.991670f, -1.000000f, 1); // bow-starboard
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,  1.000000f,  0.000000f, -0.442830f,  1.000000f,  1.000000f,  0.000000f, 2); // vertical starboard
-        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.562097f, -1.000000f, -1.000000f, -0.562103f,  0.991670f,  1.000000f, 3); // stern-starboard
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,  0.562097f, -1.000000f,  1.000000f, -0.562103f,  0.991670f, -1.000000f, 4); // stern-port
-        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.000000f,  0.000000f,  0.442830f,  1.000000f,  1.000000f,  0.000000f, 5); // vertical port
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,  0.562097f,  1.000000f,  1.000000f, -0.562103f,  0.991670f,  1.000000f, 6); // bow-port
+        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.2214f,    +1.0000f,   -0.8895f,  -0.5042f,   +0.8895f,   -1.0000f,   1); // bow-starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   2); // vertical starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.2214f,    -1.0000f,   -0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   3); // stern-starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.2214f,    -1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   -1.0000f,   4); // stern-port
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   5); // vertical port
+        add_motor_raw_6dof(AP_MOTORS_MOT_6, +0.2214f,    +1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   6); // bow-port
         break;
     }
 
