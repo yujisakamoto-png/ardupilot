@@ -176,7 +176,7 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_FD_HAYATE:{
-        _frame_class_string = "FD_HAYATE";// SITL_Submarineのスラスター定義、定義名と同期
+        _frame_class_string = "FD_HAYATE_TUNE_M2M5";// SITL_Submarineのスラスター定義、定義名と同期
         // 水平4基（ψ = ±30°/ 後傾 θ = +18.32°）縦2基（前傾 θ = -34°）
         /**
               右舷モーター：CW
@@ -190,10 +190,10 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         //                   Motor #           Roll       Pitch        Yaw      Throttle     Forward     Lateral   Testing Order
         //                                    (τx)       (τy)       (τz)     (Fz Down+)     (Fx)    (Fy Right+)
         add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.2214f,    +1.0000f,   -0.8895f,  -0.5042f,   +0.8895f,   -1.0000f,   1); // bow-starboard
-        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   2); // vertical starboard
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +0.8970f,   +1.0000f,   +0.0000f,   2); // vertical starboard TUNE
         add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.2214f,    -1.0000f,   -0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   3); // stern-starboard
         add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.2214f,    -1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   -1.0000f,   4); // stern-port
-        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   5); // vertical port
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +0.8970f,   +1.0000f,   +0.0000f,   5); // vertical port TUNE
         add_motor_raw_6dof(AP_MOTORS_MOT_6, +0.2214f,    +1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   6); // bow-port
         break;
     }
