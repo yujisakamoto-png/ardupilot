@@ -33,7 +33,6 @@ static Thruster vectored_thrusters[] =
        Thruster(5,          -1.0f,          0,              0,              -1.0f,              0,                  0)
 };
 
-
 static Thruster vectored_6dof_thrusters[] =
 {
        //       Motor #     Roll Factor     Pitch Factor    Yaw Factor      Throttle Factor     Forward Factor      Lateral Factor
@@ -46,6 +45,17 @@ static Thruster vectored_6dof_thrusters[] =
        Thruster(6,          1.0f,           1.0f,           0,              -1.0f,              0,                  0),
        Thruster(7,          -1.0f,          1.0f,           0,              -1.0f,              0,                  0)
 };
+
+static Thruster fd_hayate_thrusters[] =
+{      //       Motor #     Roll Factor     Pitch Factor    Yaw Factor      Throttle Factor     Forward Factor      Lateral Factor
+       Thruster(0,          -0.2214f,       +1.0000f,        -0.8895f,      -0.5042f,           +0.8895f,           -1.0000f),
+       Thruster(1,          +1.0000f,       +0.0000f,        -1.0000f,      +1.0000f,           +1.0000f,           +0.0000f),
+       Thruster(2,          -0.2214f,       -1.0000f,        -0.8895f,      -0.5042f,           +0.8895f,           +1.0000f),
+       Thruster(3,          +0.2214f,       -1.0000f,        +0.8895f,      -0.5042f,           +0.8895f,           -1.0000f),
+       Thruster(4,          -1.0000f,       +0.0000f,        +1.0000f,      +1.0000f,           +1.0000f,           +0.0000f),
+       Thruster(5,          +0.2214f,       +1.0000f,        +0.8895f,      -0.5042f,           +0.8895f,           +1.0000f)
+};
+
 
 Submarine::Submarine(const char *frame_str) :
     Aircraft(frame_str),
@@ -61,6 +71,10 @@ Submarine::Submarine(const char *frame_str) :
     if (strstr(frame_str, "vectored_6dof")) {
         thrusters = vectored_6dof_thrusters;
         n_thrusters = 8;
+    }
+    else if (strstr(frame_str, "fd_hayate")) {
+        thrusters = fd_hayate_thrusters;
+        n_thrusters = 6;
     }
     lock_step_scheduled = true;
 }

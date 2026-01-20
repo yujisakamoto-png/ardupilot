@@ -173,6 +173,7 @@ static const struct {
     { "calibration",        Calibration::create },
     { "vectored",           Submarine::create },
     { "vectored_6dof",      Submarine::create },
+    { "fd_hayate",          Submarine::create },
     { "silentwings",        SilentWings::create },
     { "morse",              Morse::create },
     { "airsim",             AirSim::create},
