@@ -175,8 +175,8 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_6,     -1.0f,          0,              0,              -1.0f,              0,                  0,              6);
         break;
 
-    case SUB_FRAME_CUSTOM:{
-        _frame_class_string = "HAYATE_6DOF_ORTHO";// RML_Supervisor.json参考：符号調整、6自由度全て個別定義し、係数列がレンチ空間で直交化、RC軸独立化
+    case SUB_FRAME_FD_HAYATE:{
+        _frame_class_string = "FD_HAYATE";// SITL_Submarineのスラスター定義、定義名と同期
         // 水平4基（ψ = ±30°/ 後傾 θ = +18.32°）縦2基（前傾 θ = -34°）
         /**
               右舷モーター：CW
@@ -197,6 +197,10 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_6, +0.2214f,    +1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   6); // bow-port
         break;
     }
+
+    case SUB_FRAME_CUSTOM:
+        // Put your custom motor setup here
+        //break;
 
     case SUB_FRAME_SIMPLEROV_3:
         _frame_class_string = "SIMPLEROV_3";
