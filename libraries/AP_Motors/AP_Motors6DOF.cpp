@@ -200,6 +200,7 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
     }
 
     case SUB_FRAME_CUSTOM:
+        _frame_class_string = "FD_CUSTOM";
         //                   Motor #           Roll       Pitch        Yaw      Throttle     Forward     Lateral   Testing Order
         //                                    (τx)       (τy)       (τz)     (Fz Down+)     (Fx)    (Fy Right+)
         // 水平4基（1,3,4,6）
@@ -208,8 +209,8 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_4, +1.0000f,    -1.0000f,   +1.0000f,  -1.0000f,   +1.0000f,   -1.0000f,   4);
         add_motor_raw_6dof(AP_MOTORS_MOT_6, +1.0000f,    +1.0000f,   +1.0000f,  -1.0000f,   +1.0000f,   +1.0000f,   6);
         // 縦2基（2,5）
-        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +1.0000f,   +0.0000f,   +0.0000f,   2);
-        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +1.0000f,   +0.0000f,   +0.0000f,   5);
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   2);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   5);
         break;
 
     case SUB_FRAME_SIMPLEROV_3:
