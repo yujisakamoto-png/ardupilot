@@ -63,15 +63,29 @@ static Thruster vectored_6dof_thrusters[] =
 // 右舷モーター: CW（M1,M2,M3） / 左舷モーター: CCW（M4,M5,M6）
 static Thruster fd_hayate_thrusters[] =
 {
-    // motor,   roll(τx),    pitch(τy),    yaw(τz),     Z(throttle,+down),  X(forward),    Y(lateral)
-    // --- Horizontal group (ψ=±30°, θ=+18.32°) : |F|=1 → Fx≈0.8221, |Fy|≈0.4747, Fz≈-0.3143
-    Thruster(0,  -0.05186f,  +0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      -0.47466f), // M1: x=+0.365, y=+0.165, ψ=-30°
-    Thruster(2,  -0.05186f,  -0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      +0.47466f), // M3: x=-0.365, y=+0.165, ψ=+30°
-    Thruster(3,  +0.05186f,  -0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      -0.47466f), // M4: x=-0.365, y=-0.165, ψ=-30°
-    Thruster(5,  +0.05186f,  +0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      +0.47466f), // M6: x=+0.365, y=-0.165, ψ=+30°
+    //     motor,  roll(τx),    pitch(τy), yaw(τz), Z(throttle,+down),   X(forward),      Y(lateral)
+    // --- Horizontal group (ψ=±30°, θ=+18.32°) : |F|=1 → Fx≈0.8221, |Fy|≈0.4747, Fz≈-0.3143lib
+    // ___ Horizontal (ψ=±30°, θ=+18.32°)  ← roll/pitch/Z を 0.897 倍（X/Y/yaw は据え置き）
+    Thruster(0,  -0.04658f,     +0.10291f, -0.30890f,   -0.28170f,           +0.82213f,      -0.47466f), // M1: x=+0.365, y=+0.165, ψ=-30°
+    Thruster(2,  -0.04658f,     -0.10291f, -0.30890f,   -0.28170f,           +0.82213f,      +0.47466f), // M3: x=-0.365, y=+0.165, ψ=+30°
+    Thruster(3,  +0.04658f,     -0.10291f, +0.30890f,   -0.28170f,           +0.82213f,      -0.47466f), // M4: x=-0.365, y=-0.165, ψ=-30°
+    Thruster(5,  +0.04658f,     +0.10291f, +0.30890f,   -0.28170f,           +0.82213f,      +0.47466f), // M6: x=+0.365, y=-0.165, ψ=+30°
     // --- Vertical group (ψ=0°, θ=-34°) : |F|=1 → Fx≈0.8290, Fz≈+0.5592, Fy=0
-    Thruster(1,  +0.09227f,   0.0f,      -0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M2: x=0.000, y=+0.165
-    Thruster(4,  -0.09227f,   0.0f,      +0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M5: x=0.000, y=-0.165
+    Thruster(1,  +0.09227f,     0.0f,      -0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M2: x=0.000, y=+0.165
+    Thruster(4,  -0.09227f,     0.0f,      +0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M5: x=0.000, y=-0.165
+};
+// 20260121現在以下の係数テーブルで凍結
+static Thruster fd_hayate_thrusters_std[] =
+{
+    //     motor,  roll(τx),    pitch(τy), yaw(τz), Z(throttle,+down),   X(forward),      Y(lateral)
+    // --- Horizontal group (ψ=±30°, θ=+18.32°) : |F|=1 → Fx≈0.8221, |Fy|≈0.4747, Fz≈-0.3143
+    Thruster(0,  -0.05186f,    +0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      -0.47466f), // M1: x=+0.365, y=+0.165, ψ=-30°
+    Thruster(2,  -0.05186f,    -0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      +0.47466f), // M3: x=-0.365, y=+0.165, ψ=+30°
+    Thruster(3,  +0.05186f,    -0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      -0.47466f), // M4: x=-0.365, y=-0.165, ψ=-30°
+    Thruster(5,  +0.05186f,    +0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      +0.47466f), // M6: x=+0.365, y=-0.165, ψ=+30°
+    // --- Vertical group (ψ=0°, θ=-34°) : |F|=1 → Fx≈0.8290, Fz≈+0.5592, Fy=0
+    Thruster(1,  +0.09227f,     0.0f,      -0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M2: x=0.000, y=+0.165
+    Thruster(4,  -0.09227f,     0.0f,      +0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M5: x=0.000, y=-0.165
 };
 
 static Thruster fd_hayate_thrusters_init[] =
@@ -103,7 +117,7 @@ Submarine::Submarine(const char *frame_str) :
         n_thrusters = 8;
     }
     else if (strstr(frame_str, "fd_hayate")) {
-        thrusters = fd_hayate_thrusters;
+        thrusters = fd_hayate_thrusters_std;
         n_thrusters = 6;
     }
     lock_step_scheduled = true;

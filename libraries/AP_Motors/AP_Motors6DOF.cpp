@@ -187,15 +187,15 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
               M4          M5          M6
               左舷モーター：CCW
         **/
-        // motor,   roll(τx),    pitch(τy),    yaw(τz),     Z(throttle,+down),  X(forward),    Y(lateral)
+        //                   motor,          roll(τx),  pitch(τy), yaw(τz),   Z(throttle,+down),  X(forward),    Y(lateral)
         // --- Horizontal group (ψ=±30°, θ=+18.32°) : |F|=1 → Fx≈0.8221, |Fy|≈0.4747, Fz≈-0.3143
-        add_motor_raw_6dof(AP_MOTORS_MOT_1,  -0.05186f,  +0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      -0.47466f,1); // M1: x=+0.365, y=+0.165, ψ=-30°
-        add_motor_raw_6dof(AP_MOTORS_MOT_3,  -0.05186f,  -0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      +0.47466f,3); // M3: x=-0.365, y=+0.165, ψ=+30°
-        add_motor_raw_6dof(AP_MOTORS_MOT_4,  +0.05186f,  -0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      -0.47466f,4); // M4: x=-0.365, y=-0.165, ψ=-30°
-        add_motor_raw_6dof(AP_MOTORS_MOT_6,  +0.05186f,  +0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      +0.47466f,6); // M6: x=+0.365, y=-0.165, ψ=+30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,  -0.05186f,  +0.11473f,  -0.30890f,   -0.31432f,          +0.82213f,    -0.47466f,1); // M1: x=+0.365, y=+0.165, ψ=-30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,  -0.05186f,  -0.11473f,  -0.30890f,   -0.31432f,          +0.82213f,    +0.47466f,3); // M3: x=-0.365, y=+0.165, ψ=+30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,  +0.05186f,  -0.11473f,  +0.30890f,   -0.31432f,          +0.82213f,    -0.47466f,4); // M4: x=-0.365, y=-0.165, ψ=-30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,  +0.05186f,  +0.11473f,  +0.30890f,   -0.31432f,          +0.82213f,    +0.47466f,6); // M6: x=+0.365, y=-0.165, ψ=+30°
         // --- Vertical group (ψ=0°, θ=-34°) : |F|=1 → Fx≈0.8290, Fz≈+0.5592, Fy=0
-        add_motor_raw_6dof(AP_MOTORS_MOT_2,  +0.09227f,   0.0f,      -0.13679f,   +0.55919f,           +0.82904f,       0.0f,    2); // M2: x=0.000, y=+0.165
-        add_motor_raw_6dof(AP_MOTORS_MOT_5,  -0.09227f,   0.0f,      +0.13679f,   +0.55919f,           +0.82904f,       0.0f,    5); // M5: x=0.000, y=-0.165
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,  +0.09227f,   0.0f,      -0.13679f,   +0.55919f,          +0.82904f,     0.0f,    2); // M2: x=0.000, y=+0.165
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,  -0.09227f,   0.0f,      +0.13679f,   +0.55919f,          +0.82904f,     0.0f,    5); // M5: x=0.000, y=-0.165
         break;
     }
 
