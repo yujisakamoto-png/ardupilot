@@ -111,19 +111,19 @@
 
 # --- 基本（Subの共通 sub.parm で入るものは重複を避けつつ必要分だけ上書き） ---
 SYSID_THISMAV            1
-BRD_SAFETYENABLE         0             # SITL: safety無効
+#BRD_SAFETYENABLE         0             # SITL: safety無効
 ARMING_CHECK             0             # 開発中は無効（完成後は戻す推奨）
 LOG_DISARMED             1
 
 # --- フレーム/モータ周り（ArduSub側ではミキシングしない＝各モータ素通し） ---
 # 重要：SERVOx_FUNCTION は「Motor1..」を割り当てて単純な出力にする
 # （ビルドによって値定義が変わる場合があるので必要なら 33.. の定数は調整）
-SERVO1_FUNCTION          33            # Motor1 (M1 右舷・機首寄り)
-SERVO2_FUNCTION          34            # Motor2 (M2 縦スラ前傾 右舷)
-SERVO3_FUNCTION          35            # Motor3 (M3 右舷・艦尾寄り)
-SERVO4_FUNCTION          36            # Motor4 (M4 左舷・艦尾寄り)
-SERVO5_FUNCTION          37            # Motor5 (M5 縦スラ前傾 左舷)
-SERVO6_FUNCTION          38            # Motor6 (M6 左舷・機首寄り)
+#SERVO1_FUNCTION          33            # Motor1 (M1 右舷・機首寄り)
+#SERVO2_FUNCTION          34            # Motor2 (M2 縦スラ前傾 右舷)
+#SERVO3_FUNCTION          35            # Motor3 (M3 右舷・艦尾寄り)
+#SERVO4_FUNCTION          36            # Motor4 (M4 左舷・艦尾寄り)
+#SERVO5_FUNCTION          37            # Motor5 (M5 縦スラ前傾 左舷)
+#SERVO6_FUNCTION          38            # Motor6 (M6 左舷・機首寄り)
 
 # PWM/レンジ（SITLでは SIM→[-1..+1] 正規化に写像される。実機流用も想定し標準に揃える）
 SERVO1_MIN               1100
@@ -166,8 +166,8 @@ RCMAP_FORWARD            5             # Surge (前後)
 RCMAP_LATERAL            6             # Sway (左右)
 
 # MANUALゲイン系（必要に応じて好みで調整）
-PILOT_SPEED_UP           0.50          # 上昇速度の目安[m/s]（オート時主）
-PILOT_SPEED_DN           0.50
+PILOT_SPEED_UP           50          # 上昇速度の目安[cm/s]（オート時主）
+PILOT_SPEED_DN           50
 PILOT_THRUST_ACCEL_MAX   0             # MANUAL優先のため0(制限なし)でよい
 
 # --- フィルタ/モード関連（SITL安定用の控えめ設定） ---
