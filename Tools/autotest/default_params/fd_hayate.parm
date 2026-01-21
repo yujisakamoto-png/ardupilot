@@ -114,6 +114,7 @@ SYSID_THISMAV            1
 #BRD_SAFETYENABLE         0             # SITL: safety無効
 ARMING_CHECK             0             # 開発中は無効（完成後は戻す推奨）
 LOG_DISARMED             1
+#FRAME_CONFIG             8             # FD_HAYATEフレーム指定：ここでやるとMPで切替不可なのでやめる
 
 # --- フレーム/モータ周り（ArduSub側ではミキシングしない＝各モータ素通し） ---
 # 重要：SERVOx_FUNCTION は「Motor1..」を割り当てて単純な出力にする
@@ -158,17 +159,17 @@ MOT_PWM_TYPE             0             # 0=Normal PWM, 3=DShot(実機)
 
 # --- RC入力のマッピング（MANUAL優先の6DOF） ---
 # RC1..6 を それぞれ Roll/Pitch/Heave/Yaw/Forward/Lateral に割当
-RCMAP_ROLL               1
-RCMAP_PITCH              2
-RCMAP_THROTTLE           3             # Heave (上下)
-RCMAP_YAW                4
-RCMAP_FORWARD            5             # Surge (前後)
-RCMAP_LATERAL            6             # Sway (左右)
+#RCMAP_ROLL               1
+#RCMAP_PITCH              2
+#RCMAP_THROTTLE           3             # Heave (上下)
+#RCMAP_YAW                4
+#RCMAP_FORWARD            5             # Surge (前後)
+#RCMAP_LATERAL            6             # Sway (左右)
 
 # MANUALゲイン系（必要に応じて好みで調整）
 PILOT_SPEED_UP           50          # 上昇速度の目安[cm/s]（オート時主）
 PILOT_SPEED_DN           50
-PILOT_THRUST_ACCEL_MAX   0             # MANUAL優先のため0(制限なし)でよい
+#PILOT_THRUST_ACCEL_MAX   0             # MANUAL優先のため0(制限なし)でよい
 
 # --- フィルタ/モード関連（SITL安定用の控えめ設定） ---
 ATC_RAT_PIT_P            0.10
