@@ -1,0 +1,193 @@
+
+# ============================================================
+# Frame: fd_hayate
+# Vehicle: ArduSub (SITL / real common)
+# Author : Sakamoto
+# Created: 2026-01
+#
+# Design policy:
+#  - Manual mode must produce pure axis motion
+#  - add_motor_raw_6dof coefficients derived from inverse problem
+#  - No auto-mixing assumptions
+# ============================================================
+
+# ============================================================
+# Frame: fd_hayate  (add_motor_raw_6dof)
+# Coordinate (per design drawing):
+#   +X : forward (機首方向)
+#   +Y : starboard/right (右舷)
+#   +Z : up (上方)     ← 図の表記に合わせる（NEDとはZ符号が逆）
+#
+# Angles (per drawing):
+#   psi   [deg] : yaw about +Z, CCW(+)
+#   theta [deg] : pitch about +Y, nose-up(+)
+#
+# Position from CG (per drawing):
+#   r = (x, y, z) [m]
+#
+# Motor rotation (per drawing):
+#   M1, M2, M3 : CW
+#   M4, M5, M6 : CCW
+#
+# 設計メモ:
+#  - ここに記す幾何は「図面の座標系」の値
+#  - ArduSub/BODY(NED)に適用する場合は、必要に応じて軸/符号を変換してから
+#    add_motor_raw_6dof の係数を導出すること
+# ============================================================
+
+# ------------------------------------------------------------
+# M1 : 右舷・機首寄り
+# r     = (+0.365, +0.165, +0.000) [m]
+# psi   =  -30.00 [deg]
+# theta =  +18.32 [deg]
+# rot   =  CW
+# 役割メモ:
+#  - 前方(+X)・上方(+Z)成分を持つ斜めスラスタ
+#  - M3, M6 との組合せでヨー/ロールのカップリングを整合
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# M2 : 縦スラ前傾（右舷）
+# r     = (+0.000, +0.165, +0.000) [m]
+# psi   =   +0.00 [deg]
+# theta =  -34.00 [deg]   # 前傾（下向き成分が強い）
+# rot   =  CW
+# 役割メモ:
+#  - +X 成分（前後）と -Z 成分（下向き）を主に担う
+#  - M5 と対でピッチモーメントの主役
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# M3 : 右舷・艦尾寄り
+# r     = (-0.365, +0.165, +0.000) [m]
+# psi   =  +30.00 [deg]
+# theta =  +18.32 [deg]
+# rot   =  CW
+# 役割メモ:
+#  - M1 のX対称（x符号が反対）の位置
+#  - ヨー/ロール生成でM1, M6と相互にバランス
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# M4 : 左舷・艦尾寄り
+# r     = (-0.365, -0.165, +0.000) [m]
+# psi   =  -30.00 [deg]
+# theta =  +18.32 [deg]
+# rot   =  CCW
+# 役割メモ:
+#  - 後方左舷の斜めスラスタ
+#  - M6 とペアでヨー、M1/M3 と合わせてサージ純化を支援
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# M5 : 縦スラ前傾（左舷）
+# r     = (+0.000, -0.165, +0.000) [m]
+# psi   =   +0.00 [deg]
+# theta =  -34.00 [deg]   # 前傾（下向き成分が強い）
+# rot   =  CCW
+# 役割メモ:
+#  - M2 のY対称（y符号が反対）の位置
+#  - M2 と対でピッチ主役。ヒーブ成分は指令で相殺/加算
+# ------------------------------------------------------------
+
+# ------------------------------------------------------------
+# M6 : 左舷・機首寄り
+# r     = (+0.365, -0.165, +0.000) [m]
+# psi   =  +30.00 [deg]
+# theta =  +18.32 [deg]
+# rot   =  CCW
+# 役割メモ:
+#  - 前方左舷の斜めスラスタ
+#  - ヨーの利きを作るキーペア（M1/M3/M4と相互作用）
+# ------------------------------------------------------------
+
+# ============================================================
+# Frame  : fd_hayate (SITL)
+# Vehicle: ArduSub
+# Author : sakamoto
+# Note   : MANUAL優先・SITLのSIM_Submarine.cpp側でミキシング（r×F）
+#          → ここでは ArduSub の出力を素通し設定に徹する
+# ============================================================
+
+# --- 基本（Subの共通 sub.parm で入るものは重複を避けつつ必要分だけ上書き） ---
+SYSID_THISMAV            1
+BRD_SAFETYENABLE         0             # SITL: safety無効
+ARMING_CHECK             0             # 開発中は無効（完成後は戻す推奨）
+LOG_DISARMED             1
+
+# --- フレーム/モータ周り（ArduSub側ではミキシングしない＝各モータ素通し） ---
+# 重要：SERVOx_FUNCTION は「Motor1..」を割り当てて単純な出力にする
+# （ビルドによって値定義が変わる場合があるので必要なら 33.. の定数は調整）
+SERVO1_FUNCTION          33            # Motor1 (M1 右舷・機首寄り)
+SERVO2_FUNCTION          34            # Motor2 (M2 縦スラ前傾 右舷)
+SERVO3_FUNCTION          35            # Motor3 (M3 右舷・艦尾寄り)
+SERVO4_FUNCTION          36            # Motor4 (M4 左舷・艦尾寄り)
+SERVO5_FUNCTION          37            # Motor5 (M5 縦スラ前傾 左舷)
+SERVO6_FUNCTION          38            # Motor6 (M6 左舷・機首寄り)
+
+# PWM/レンジ（SITLでは SIM→[-1..+1] 正規化に写像される。実機流用も想定し標準に揃える）
+SERVO1_MIN               1100
+SERVO1_TRIM              1500
+SERVO1_MAX               1900
+SERVO2_MIN               1100
+SERVO2_TRIM              1500
+SERVO2_MAX               1900
+SERVO3_MIN               1100
+SERVO3_TRIM              1500
+SERVO3_MAX               1900
+SERVO4_MIN               1100
+SERVO4_TRIM              1500
+SERVO4_MAX               1900
+SERVO5_MIN               1100
+SERVO5_TRIM              1500
+SERVO5_MAX               1900
+SERVO6_MIN               1100
+SERVO6_TRIM              1500
+SERVO6_MAX               1900
+
+# 反転（SITLの回転方向モデルと実機のESC方向を一致させる。まずは全てOFFで開始）
+SERVO1_REVERSED          0
+SERVO2_REVERSED          0
+SERVO3_REVERSED          0
+SERVO4_REVERSED          0
+SERVO5_REVERSED          0
+SERVO6_REVERSED          0
+
+# PWM出力タイプ（SITLでは影響薄。実機流用時に変更）
+MOT_PWM_TYPE             0             # 0=Normal PWM, 3=DShot(実機)
+
+# --- RC入力のマッピング（MANUAL優先の6DOF） ---
+# RC1..6 を それぞれ Roll/Pitch/Heave/Yaw/Forward/Lateral に割当
+RCMAP_ROLL               1
+RCMAP_PITCH              2
+RCMAP_THROTTLE           3             # Heave (上下)
+RCMAP_YAW                4
+RCMAP_FORWARD            5             # Surge (前後)
+RCMAP_LATERAL            6             # Sway (左右)
+
+# MANUALゲイン系（必要に応じて好みで調整）
+PILOT_SPEED_UP           0.50          # 上昇速度の目安[m/s]（オート時主）
+PILOT_SPEED_DN           0.50
+PILOT_THRUST_ACCEL_MAX   0             # MANUAL優先のため0(制限なし)でよい
+
+# --- フィルタ/モード関連（SITL安定用の控えめ設定） ---
+ATC_RAT_PIT_P            0.10
+ATC_RAT_RLL_P            0.10
+ATC_RAT_YAW_P            0.10
+
+# --- 参考（fd_hayate 幾何）: add_motor_raw_6dof の係数はSIM側で実装 ---
+# 座標系（図面）: +X 前, +Y 右舷, +Z 上
+# BODY/NED       : +X 前, +Y 右,   +Z 下
+# M1: r=(+0.365,+0.165,0), psi=-30°, theta=+18.32°
+# M2: r=( 0.000,+0.165,0), psi=  0°, theta=-34.00°
+# M3: r=(-0.365,+0.165,0), psi=+30°, theta=+18.32°
+# M4: r=(-0.365,-0.165,0), psi=-30°, theta=+18.32°
+# M5: r=( 0.000,-0.165,0), psi=  0°, theta=-34.00°
+# M6: r=(+0.365,-0.165,0), psi=+30°, theta=+18.32°
+# 正規化単位推力成分（NED/BODY）:
+#  水平群(±30°, +18.32°): Fx≈+0.8221, |Fy|≈0.4747, Fz≈-0.3143
+#  縦群(0°, -34.00°)    : Fx≈+0.8290, Fy=0,       Fz≈+0.5592
+# モーメント（単位推力）:
+#  τx=y·Fz, τy=−x·Fz, τz=x·Fy−y·Fx
+# ============================================================
+
