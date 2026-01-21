@@ -176,31 +176,41 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         break;
 
     case SUB_FRAME_FD_HAYATE:{
-        _frame_class_string = "FD_HAYATE_TUNE_M2M5";// SITL_Submarineのスラスター定義、定義名と同期
+        _frame_class_string = "FD_HAYATE_REFACTORING";// SITL_Submarineのスラスター定義、定義名と同期
         // 水平4基（ψ = ±30°/ 後傾 θ = +18.32°）縦2基（前傾 θ = -34°）
         /**
               右舷モーター：CW
-              ①          ②          ③
+              M1          M2          M3
              +--------------------------+
            ＜機首方向                   |
              +--------------------------+
-              ⑥          ⑤          ④
+              M4          M5          M6
               左舷モーター：CCW
         **/
-        //                   Motor #           Roll       Pitch        Yaw      Throttle     Forward     Lateral   Testing Order
-        //                                    (τx)       (τy)       (τz)     (Fz Down+)     (Fx)    (Fy Right+)
-        add_motor_raw_6dof(AP_MOTORS_MOT_1, -0.2214f,    +1.0000f,   -0.8895f,  -0.5042f,   +0.8895f,   -1.0000f,   1); // bow-starboard
-        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +0.8970f,   +1.0000f,   +0.0000f,   2); // vertical starboard TUNE
-        add_motor_raw_6dof(AP_MOTORS_MOT_3, -0.2214f,    -1.0000f,   -0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   3); // stern-starboard
-        add_motor_raw_6dof(AP_MOTORS_MOT_4, +0.2214f,    -1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   -1.0000f,   4); // stern-port
-        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +0.8970f,   +1.0000f,   +0.0000f,   5); // vertical port TUNE
-        add_motor_raw_6dof(AP_MOTORS_MOT_6, +0.2214f,    +1.0000f,   +0.8895f,  -0.5042f,   +0.8895f,   +1.0000f,   6); // bow-port
+        // motor,   roll(τx),    pitch(τy),    yaw(τz),     Z(throttle,+down),  X(forward),    Y(lateral)
+        // --- Horizontal group (ψ=±30°, θ=+18.32°) : |F|=1 → Fx≈0.8221, |Fy|≈0.4747, Fz≈-0.3143
+        add_motor_raw_6dof(AP_MOTORS_MOT_1,  -0.05186f,  +0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      -0.47466f,1); // M1: x=+0.365, y=+0.165, ψ=-30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_3,  -0.05186f,  -0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      +0.47466f,3); // M3: x=-0.365, y=+0.165, ψ=+30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_4,  +0.05186f,  -0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      -0.47466f,4); // M4: x=-0.365, y=-0.165, ψ=-30°
+        add_motor_raw_6dof(AP_MOTORS_MOT_6,  +0.05186f,  +0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      +0.47466f,6); // M6: x=+0.365, y=-0.165, ψ=+30°
+        // --- Vertical group (ψ=0°, θ=-34°) : |F|=1 → Fx≈0.8290, Fz≈+0.5592, Fy=0
+        add_motor_raw_6dof(AP_MOTORS_MOT_2,  +0.09227f,   0.0f,      -0.13679f,   +0.55919f,           +0.82904f,       0.0f,    2); // M2: x=0.000, y=+0.165
+        add_motor_raw_6dof(AP_MOTORS_MOT_5,  -0.09227f,   0.0f,      +0.13679f,   +0.55919f,           +0.82904f,       0.0f,    5); // M5: x=0.000, y=-0.165
         break;
     }
 
     case SUB_FRAME_CUSTOM:
-        // Put your custom motor setup here
-        //break;
+        //                   Motor #           Roll       Pitch        Yaw      Throttle     Forward     Lateral   Testing Order
+        //                                    (τx)       (τy)       (τz)     (Fz Down+)     (Fx)    (Fy Right+)
+        // 水平4基（1,3,4,6）
+        add_motor_raw_6dof(AP_MOTORS_MOT_1, -1.0000f,    +1.0000f,   -1.0000f,  -1.0000f,   +1.0000f,   -1.0000f,   1);
+        add_motor_raw_6dof(AP_MOTORS_MOT_3, -1.0000f,    -1.0000f,   -1.0000f,  -1.0000f,   +1.0000f,   +1.0000f,   3);
+        add_motor_raw_6dof(AP_MOTORS_MOT_4, +1.0000f,    -1.0000f,   +1.0000f,  -1.0000f,   +1.0000f,   -1.0000f,   4);
+        add_motor_raw_6dof(AP_MOTORS_MOT_6, +1.0000f,    +1.0000f,   +1.0000f,  -1.0000f,   +1.0000f,   +1.0000f,   6);
+        // 縦2基（2,5）
+        add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +1.0000f,   +0.0000f,   +0.0000f,   2);
+        add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +1.0000f,   +0.0000f,   +0.0000f,   5);
+        break;
 
     case SUB_FRAME_SIMPLEROV_3:
         _frame_class_string = "SIMPLEROV_3";
