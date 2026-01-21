@@ -45,17 +45,47 @@ static Thruster vectored_6dof_thrusters[] =
        Thruster(6,          1.0f,           1.0f,           0,              -1.0f,              0,                  0),
        Thruster(7,          -1.0f,          1.0f,           0,              -1.0f,              0,                  0)
 };
+// FD_HAYATE – control-consistent (SITL idealized model)
+// AP_Motors6DOF 側で幾何・混合はすべて完結させる・・・のではなく物理的な定義はこちらで厳密に行う。
+// なぜなら物理的な角度や配置は決まっているから。SITLの物理的な特性もこちらで定義するのが筋だと思われる
+        /**
+              右舷モーター：CW
+              M1          M2          M3
+             +--------------------------+
+           ＜機首方向                   |
+             +--------------------------+
+              M6          M5          M4
+              左舷モーター：CCW
+        **/
 
+// 水平4基（ψ = ±30° / 後傾 θ = +18.32°）、縦2基（前傾 θ = -34°）
+// 図面座標: +X=前, +Y=右舷, +Z=上 / NED(BODY): +Z=下
+// 右舷モーター: CW（M1,M2,M3） / 左舷モーター: CCW（M4,M5,M6）
 static Thruster fd_hayate_thrusters[] =
-{      //       Motor #     Roll Factor     Pitch Factor    Yaw Factor      Throttle Factor     Forward Factor      Lateral Factor
-       Thruster(0,          -0.2214f,       +1.0000f,        -0.8895f,      -0.5042f,           +0.8895f,           -1.0000f),
-       Thruster(1,          +1.0000f,       +0.0000f,        -1.0000f,      +1.0000f,           +1.0000f,           +0.0000f),
-       Thruster(2,          -0.2214f,       -1.0000f,        -0.8895f,      -0.5042f,           +0.8895f,           +1.0000f),
-       Thruster(3,          +0.2214f,       -1.0000f,        +0.8895f,      -0.5042f,           +0.8895f,           -1.0000f),
-       Thruster(4,          -1.0000f,       +0.0000f,        +1.0000f,      +1.0000f,           +1.0000f,           +0.0000f),
-       Thruster(5,          +0.2214f,       +1.0000f,        +0.8895f,      -0.5042f,           +0.8895f,           +1.0000f)
+{
+    // motor,   roll(τx),    pitch(τy),    yaw(τz),     Z(throttle,+down),  X(forward),    Y(lateral)
+    // --- Horizontal group (ψ=±30°, θ=+18.32°) : |F|=1 → Fx≈0.8221, |Fy|≈0.4747, Fz≈-0.3143
+    Thruster(0,  -0.05186f,  +0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      -0.47466f), // M1: x=+0.365, y=+0.165, ψ=-30°
+    Thruster(2,  -0.05186f,  -0.11473f,  -0.30890f,   -0.31432f,           +0.82213f,      +0.47466f), // M3: x=-0.365, y=+0.165, ψ=+30°
+    Thruster(3,  +0.05186f,  -0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      -0.47466f), // M4: x=-0.365, y=-0.165, ψ=-30°
+    Thruster(5,  +0.05186f,  +0.11473f,  +0.30890f,   -0.31432f,           +0.82213f,      +0.47466f), // M6: x=+0.365, y=-0.165, ψ=+30°
+    // --- Vertical group (ψ=0°, θ=-34°) : |F|=1 → Fx≈0.8290, Fz≈+0.5592, Fy=0
+    Thruster(1,  +0.09227f,   0.0f,      -0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M2: x=0.000, y=+0.165
+    Thruster(4,  -0.09227f,   0.0f,      +0.13679f,   +0.55919f,           +0.82904f,       0.0f),     // M5: x=0.000, y=-0.165
 };
 
+static Thruster fd_hayate_thrusters_init[] =
+{
+       // motor,             roll,          pitch,           yaw,          Z(throttle),      X(forward),        Y(lateral)
+       // Horizontal thrusters
+       Thruster(0,          -0.2214f,      +1.0000f,        -0.8895f,       -0.5042f,           +0.8895f,           -0.5f), // M1
+       Thruster(2,          -0.2214f,      -1.0000f,        -0.8895f,       -0.5042f,           +0.8895f,           +0.5f), // M3
+       Thruster(3,          +0.2214f,      -1.0000f,        +0.8895f,       -0.5042f,           +0.8895f,           -0.5f), // M4
+       Thruster(5,          +0.2214f,      +1.0000f,        +0.8895f,       -0.5042f,           +0.8895f,           +0.5f), // M6
+       // Vertical thrusters
+       Thruster(1,          +1.0000f,        0.0f,           -0.2214f,      +1.0f,              +0.2214f,            0.0f), // M2
+       Thruster(4,          -1.0000f,        0.0f,           +0.2214f,      +1.0f,              +0.2214f,            0.0f), // M5
+};
 
 Submarine::Submarine(const char *frame_str) :
     Aircraft(frame_str),
