@@ -175,7 +175,8 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_6,     -1.0f,          0,              0,              -1.0f,              0,                  0,              6);
         break;
 
-    case SUB_FRAME_FD_HAYATE:{
+//    case SUB_FRAME_FD_HAYATE:{
+    case SUB_FRAME_CUSTOM:{
         _frame_class_string = "FD_HAYATE_REFACTORING";// SITL_Submarineのスラスター定義、定義名と同期
         // 水平4基（ψ = ±30°/ 後傾 θ = +18.32°）縦2基（前傾 θ = -34°）
         /**
@@ -198,7 +199,7 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_5,  -0.09227f,   0.0f,      +0.13679f,   +0.55919f,          +0.82904f,     0.0f,    5); // M5: x=0.000, y=-0.165
         break;
     }
-
+#if 0
     case SUB_FRAME_CUSTOM:
         _frame_class_string = "FD_CUSTOM";
         //                   Motor #           Roll       Pitch        Yaw      Throttle     Forward     Lateral   Testing Order
@@ -212,7 +213,7 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
         add_motor_raw_6dof(AP_MOTORS_MOT_2, +1.0000f,    +0.0000f,   -1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   2);
         add_motor_raw_6dof(AP_MOTORS_MOT_5, -1.0000f,    +0.0000f,   +1.0000f,  +1.0000f,   +1.0000f,   +0.0000f,   5);
         break;
-
+#endif
     case SUB_FRAME_SIMPLEROV_3:
         _frame_class_string = "SIMPLEROV_3";
         add_motor_raw_6dof(AP_MOTORS_MOT_1,     0,              0,              -1.0f,          0,                  1.0f,               0,              1);
