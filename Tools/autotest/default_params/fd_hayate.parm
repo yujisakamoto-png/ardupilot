@@ -172,9 +172,9 @@ PILOT_SPEED_DN           50
 #PILOT_THRUST_ACCEL_MAX   0             # MANUAL優先のため0(制限なし)でよい
 
 # --- フィルタ/モード関連（SITL安定用の控えめ設定） ---
-ATC_RAT_PIT_P            0.10
-ATC_RAT_RLL_P            0.10
-ATC_RAT_YAW_P            0.10
+ATC_RAT_PIT_P            0.10           # Default:0.135
+ATC_RAT_RLL_P            0.10           # Default:0.135
+ATC_RAT_YAW_P            0.10           # Default:0.18
 
 # --- 参考（fd_hayate 幾何）: add_motor_raw_6dof の係数はSIM側で実装 ---
 # 座標系（図面）: +X 前, +Y 右舷, +Z 上
