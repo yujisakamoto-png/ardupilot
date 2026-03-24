@@ -185,7 +185,7 @@ void AP_Motors6DOF::setup_motors(motor_frame_class frame_class, motor_frame_type
              +--------------------------+
            ＜機首方向                   |
              +--------------------------+
-              M4          M5          M6
+              M6          M5          M4
               左舷モーター：CCW
         **/
         //                   motor,          roll(τx),  pitch(τy), yaw(τz),   Z(throttle,+down),  X(forward),    Y(lateral)
